@@ -4,6 +4,7 @@
 @colour-light-blue: #E6F6FA;
 @colour-blue: #0400B8;
 @colour-red: #D1001A;
+@colour-light-red: #FFD6DC;
 @colour-white: #ffffff;
 @colour-white-semi-opaque: #ffffffaa;
 @colour-light-grey: #f0f0f0;
@@ -144,20 +145,23 @@ body {
 }
 
 #suggestFilm {
-    background-color: @colour-light-grey;
-    border-radius: @padding-small;
-    padding: @padding-medium @padding-large;
+    background-color: @colour-light-red;
+    border-radius: @padding-medium;
+    position: relative;
+    margin-bottom: @padding-large;
 
     & > * {
-        display: inline-block;
-        font-size: @font-size-regular;
-        margin: 0;
+        padding: @padding-medium @padding-large;
     }
 
     h5 {
+        font-size: @font-size-xlarge;
         font-weight: @font-weight-black;
         text-transform: uppercase;
-        margin-right: @padding-small;
+        background-color: @colour-red;
+        color: @colour-white;
+        border-radius: @padding-medium @padding-medium 0 0;
+        margin: 0;
     }
 }
 
