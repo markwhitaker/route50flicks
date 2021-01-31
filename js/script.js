@@ -4,11 +4,16 @@ $(function () {
     const MAP_BACKGROUND_COLOUR = "#f0f0f0";
     const INACTIVE_MAP_COLOUR = "#555555";
     const ACTIVE_MAP_COLOURS = [
-        "#00C4F0",
-        "#00BCE5",
-        "#00B3DB",
-        "#00ABD1",
-        "#00A3C7"
+        "#F0001E",
+        "#E0001C",
+        "#D1001A",
+        "#C20018",
+        "#B20016",
+        "#0500D6",
+        "#0400C7",
+        "#0400B8",
+        "#0400A8",
+        "#030099"
     ];
     const ALT_TEXT_FLAG = "State flag of {0}";
     const ALT_TEXT_POSTER = "Film poster for {0}";
