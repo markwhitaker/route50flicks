@@ -2,9 +2,9 @@
 
 # WITTERWORLD
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/4218c2f7-c137-4a55-b85a-19235fba62d0/deploy-status)](https://app.netlify.com/sites/witterworld/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/5c2e3629-bd79-49a6-adc5-55470ca0a5e7/deploy-status)](https://app.netlify.com/sites/witterworld-usa/deploys)
 
-Full source code for the [Wittertainment World Map of Cinema](https://witterworld.com).
+Full source code for the [Wittertainment US Movie Road Trip](https://usa.witterworld.com).
 
 ## How do I build it?
 
