@@ -10,9 +10,9 @@ $(function () {
         "#00ABD1",
         "#00A3C7"
     ];
-    const ALT_TEXT_FLAG = "National flag of {0}";
+    const ALT_TEXT_FLAG = "State flag of {0}";
     const ALT_TEXT_POSTER = "Film poster for {0}";
-    const URL_FLAG = "https://flagpedia.net/data/flags/vector/{0}.svg";
+    const URL_FLAG = "https://flagcdn.com/{0}.svg";
     const URL_IMDB = "https://www.imdb.com/title/{0}/";
     const URL_JUST_WATCH = "https://www.justwatch.com/uk/movie/{0}";
     const URL_LETTERBOXD = "https://letterboxd.com/film/{0}/";
@@ -49,7 +49,7 @@ $(function () {
             showAbout();
         });
 
-        $('#filmCountryFlag').on({
+        $('#filmStateFlag').on({
             error: function () {
                 $(this).hide();
             },
@@ -66,11 +66,11 @@ $(function () {
         $.getJSON("data/films.json", function (filmsArray) {
             filmsArray.forEach(function (film) {
                 film.colour = getRandomActiveMapColour();
-                _films[film.countryCode] = film;
+                _films[film.stateCode] = film;
             });
             _filmsArraySorted = filmsArray.sort(function (a, b) {
-                return (a.country < b.country) ? -1 :
-                    (a.country > b.country) ? 1 : 0;
+                return (a.state < b.state) ? -1 :
+                    (a.state > b.state) ? 1 : 0;
             });
 
             onLoaded();
@@ -79,7 +79,7 @@ $(function () {
 
     function initialiseMap() {
         _map = new jvm.Map({
-            map: "world_merc",
+            map: "us_merc",
             container: $("#map"),
             backgroundColor: MAP_BACKGROUND_COLOUR,
             zoomMin: 0.9,
@@ -93,13 +93,13 @@ $(function () {
                     attribute: "fill"
                 }]
             },
-            onRegionClick: function (_, countryCode) {
-                showFilmDetails(countryCode);
+            onRegionClick: function (_, stateCode) {
+                showFilmDetails(stateCode);
             },
             onRegionTipShow: function(_, tip, code) {
                 let film = _films[code];
                 if (film) {
-                    tip.text("{0}: {1} ({2})".format(film.country, film.title, film.year));
+                    tip.text("{0}: {1} ({2})".format(film.state, film.title, film.year));
                 }
             }
         });
@@ -125,9 +125,9 @@ $(function () {
                     title: "{0} ({1})".format(film.title, film.year),
                     style: "background-color: {0}".format(film.colour)
                 })
-                .text(film.country)
+                .text(film.state)
                 .click(function(){
-                    showFilmDetails(film.countryCode);
+                    showFilmDetails(film.stateCode);
                 })
                 .appendTo("#list");
             });
@@ -184,20 +184,20 @@ $(function () {
         return ACTIVE_MAP_COLOURS[index];
     }
 
-    function showFilmDetails(countryCode) {
-        let film = _films[countryCode];
+    function showFilmDetails(stateCode) {
+        let film = _films[stateCode];
 
         if (!film) {
             return;
         }
 
-        $("#filmCountry").text(film.country);
+        $("#filmState").text(film.state);
         $("#filmTitle").text(film.title);
         $("#filmYear").text(film.year);
-        $("#filmCountryFlag")
+        $("#filmStateFlag")
             .prop({
-                src: URL_FLAG.format(film.countryCode.toLowerCase()),
-                alt: ALT_TEXT_FLAG.format(film.country)
+                src: URL_FLAG.format(film.stateCode.toLowerCase()),
+                alt: ALT_TEXT_FLAG.format(film.state)
             });
 
         $("#filmImageContainer")
