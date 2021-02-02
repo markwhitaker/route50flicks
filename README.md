@@ -1,4 +1,4 @@
-![icon](images/icon72.png)
+![icon](images/logo72.png)
 
 # ROUTE 50 FLICKS
 
