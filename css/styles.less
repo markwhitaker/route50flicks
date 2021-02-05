@@ -121,6 +121,11 @@ body {
         #digit0 {
             color: @colour-blue;
         }
+
+        // Fix the nasty kerning between R and O
+        &::first-letter {
+            padding-right: 0.001em;
+        }
     }
 
     h4 {
