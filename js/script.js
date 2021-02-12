@@ -27,14 +27,16 @@ $(function () {
 
     let _map;
     let _films = {};
-    let _filmsArraySorted = [];
+    let _filmsSortedByState = [];
+    let _filmsSortedByTitle = [];
 
     initialiseEventHandlers();
 
     loadData(function () {
         initialiseCount();
         initialiseMap();
-        initialiseList();
+        initialiseStatesList();
+        initialiseMoviesList();
     });
 
     //-----------------------------------------------------------
@@ -46,8 +48,12 @@ $(function () {
             showMap();
         });
 
-        $("#btnShowList").click(function () {
-            showList();
+        $("#btnShowListStates").click(function () {
+            showListStates();
+        });
+
+        $("#btnShowListMovies").click(function () {
+            showListMovies();
         });
 
         $("#btnShowAbout").click(function () {
@@ -65,7 +71,7 @@ $(function () {
     }
 
     function loadData(onLoaded) {
-        _filmsArraySorted = [];
+        _filmsSortedByState = [];
         _films = {};
 
         $.getJSON("data/films.json", function (filmsArray) {
@@ -73,9 +79,15 @@ $(function () {
                 film.colour = getRandomActiveMapColour();
                 _films[film.stateCode] = film;
             });
-            _filmsArraySorted = filmsArray.sort(function (a, b) {
+            _filmsSortedByState = filmsArray.sort(function (a, b) {
                 return (a.state < b.state) ? -1 :
                     (a.state > b.state) ? 1 : 0;
+            });
+            _filmsSortedByTitle = filmsArray.slice().sort(function (a, b) {
+                let aTitle = a.title.sortable();
+                let bTitle = b.title.sortable();
+                return (aTitle < bTitle) ? -1 :
+                    (aTitle > bTitle) ? 1 : 0;
             });
 
             onLoaded();
@@ -120,26 +132,34 @@ $(function () {
         }
     }
 
-    function initialiseList() {
-        $("#list").empty();
+    function initialiseStatesList() {
+        initialiseList("#listStates", _filmsSortedByState, "state");
+    }
 
-        _filmsArraySorted.forEach(function(film){
+    function initialiseMoviesList() {
+        initialiseList("#listMovies", _filmsSortedByTitle, "title");
+    }
+
+    function initialiseList(elementId, array, prop) {
+        $(elementId).empty();
+
+        array.forEach(function(film){
             $("<span></span>")
                 .addClass("listFilm")
                 .prop({
                     title: "{0} ({1})".format(film.title, film.year),
                     style: "background-color: {0}".format(film.colour)
                 })
-                .text(film.state)
+                .text(film[prop])
                 .click(function(){
                     showFilmDetails(film.stateCode);
                 })
-                .appendTo("#list");
+                .appendTo(elementId);
             });
     }
 
     function initialiseCount() {
-        $("#filmCount").text(_filmsArraySorted.length);
+        $("#filmCount").text(_filmsSortedByState.length);
     }
 
     function showMap() {
@@ -148,9 +168,15 @@ $(function () {
         initialiseMap();
     }
 
-    function showList() {
-        selectButton("#btnShowList");
-        selectSection("#sectionList");
+    function showListStates() {
+        selectButton("#btnShowListStates");
+        selectSection("#sectionListStates");
+        uninitialiseMap();
+    }
+
+    function showListMovies() {
+        selectButton("#btnShowListMovies");
+        selectSection("#sectionListMovies");
         uninitialiseMap();
     }
 
@@ -246,5 +272,9 @@ $(function () {
             formatted = formatted.replace("{" + i + "}", arguments[i]);
         }
         return formatted;
+    }
+
+    String.prototype.sortable = function () {
+        return this.replace(/^(A|The) /, "");
     }
 });

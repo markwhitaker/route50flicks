@@ -72,7 +72,8 @@
   <!-- Map/list buttons -->
   <div class="container" id="sectionTabs">
     <button type="button" id="btnShowMap" class="selected">Map</button>
-    <button type="button" id="btnShowList">List</button>
+    <button type="button" id="btnShowListStates">States</button>
+    <button type="button" id="btnShowListMovies">Movies</button>
     <button type="button" id="btnShowAbout">About</button>
   </div>
 
@@ -82,15 +83,29 @@
       <div id="map"></div>
     </div>
 
-    <!-- List -->
-    <div class="container-fluid section" id="sectionList" style="display: none;">
+    <!-- States -->
+    <div class="container-fluid section" id="sectionListStates" style="display: none;">
       <div class="container content">
         <div class="row">
           <div class="col-md-12">
-            <div id="listIntroduction">
-              If map-clicking just ain't your bag...
+            <div class="listIntroduction">
+              Every state we&rsquo;ve travelled through so far...
             </div>
-            <div id="list"></div>
+            <div class="list" id="listStates"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Movies -->
+    <div class="container-fluid section" id="sectionListMovies" style="display: none;">
+      <div class="container content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="listIntroduction">
+              Every movie we&rsquo;ve watched so far...
+            </div>
+            <div class="list" id="listMovies"></div>
           </div>
         </div>
       </div>
