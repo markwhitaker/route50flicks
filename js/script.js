@@ -133,27 +133,52 @@ $(function () {
     }
 
     function initialiseStatesList() {
-        initialiseList("#listStates", _filmsSortedByState, "state");
+        initialiseList(
+            "#listStates",
+            _filmsSortedByState,
+            function(film) {
+                return film.state;
+            },
+            function(film) {
+                return "{0} ({1})".format(film.title, film.year);
+            });
     }
 
     function initialiseMoviesList() {
-        initialiseList("#listMovies", _filmsSortedByTitle, "title");
+        initialiseList(
+            "#listMovies",
+            _filmsSortedByTitle,
+            function(film) {
+                return "{0} ({1})".format(film.title, film.year);
+            },
+            function(film) {
+                return film.state;
+            });
     }
 
-    function initialiseList(elementId, array, prop) {
+    function initialiseList(elementId, array, textFunction, tipFunction) {
         $(elementId).empty();
 
         array.forEach(function(film){
             $("<span></span>")
                 .addClass("listFilm")
                 .prop({
-                    title: "{0} ({1})".format(film.title, film.year),
+                    title: tipFunction(film),
                     style: "background-color: {0}".format(film.colour)
                 })
-                .text(film[prop])
+                .text(textFunction(film))
                 .click(function(){
                     showFilmDetails(film.stateCode);
                 })
+                .prepend($("<img/>")
+                    .prop({
+                        src: URL_FLAG.format(film.stateCode.toLowerCase()),
+                        alt: ALT_TEXT_FLAG.format(film.state)
+                    })
+                    .on("error", function () {
+                        $(this).hide();
+                    })
+                )
                 .appendTo(elementId);
             });
     }
