@@ -172,7 +172,7 @@ $(function () {
                 })
                 .prepend($("<img/>")
                     .prop({
-                        src: URL_FLAG.format(film.stateCode.toLowerCase()),
+                        src: flagUrl(film),
                         alt: ALT_TEXT_FLAG.format(film.state)
                     })
                     .on("error", function () {
@@ -252,7 +252,7 @@ $(function () {
         $("#filmYear").text(film.year);
         $("#filmStateFlag")
             .prop({
-                src: URL_FLAG.format(film.stateCode.toLowerCase()),
+                src: flagUrl(film),
                 alt: ALT_TEXT_FLAG.format(film.state)
             });
 
@@ -289,6 +289,12 @@ $(function () {
                 href: url.format(value)
             })
             .toggle(!!value);
+    }
+
+    function flagUrl(film) {
+        return film.stateCode === "US-DC"
+            ? "https://upload.wikimedia.org/wikipedia/commons/d/d4/Flag_of_the_District_of_Columbia.svg"
+            : URL_FLAG.format(film.stateCode.toLowerCase());
     }
 
     String.prototype.format = function () {
