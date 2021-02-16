@@ -47,15 +47,12 @@ $(function () {
         $("#btnShowMap").click(function () {
             showMap();
         });
-
         $("#btnShowListStates").click(function () {
             showListStates();
         });
-
         $("#btnShowListMovies").click(function () {
             showListMovies();
         });
-
         $("#btnShowAbout").click(function () {
             showAbout();
         });
@@ -72,6 +69,7 @@ $(function () {
 
     function loadData(onLoaded) {
         _filmsSortedByState = [];
+        _filmsSortedByTitle = [];
         _films = {};
 
         $.getJSON("data/films.json", function (filmsArray) {
@@ -113,7 +111,7 @@ $(function () {
             onRegionClick: function (_, stateCode) {
                 showFilmDetails(stateCode);
             },
-            onRegionTipShow: function(_, tip, code) {
+            onRegionTipShow: function (_, tip, code) {
                 let film = _films[code];
                 if (film) {
                     tip.text("{0}: {1} ({2})".format(film.state, film.title, film.year));
@@ -136,10 +134,10 @@ $(function () {
         initialiseList(
             "#listStates",
             _filmsSortedByState,
-            function(film) {
+            function (film) {
                 return film.state;
             },
-            function(film) {
+            function (film) {
                 return "{0} ({1})".format(film.title, film.year);
             });
     }
@@ -148,10 +146,10 @@ $(function () {
         initialiseList(
             "#listMovies",
             _filmsSortedByTitle,
-            function(film) {
+            function (film) {
                 return "{0} ({1})".format(film.title, film.year);
             },
-            function(film) {
+            function (film) {
                 return film.state;
             });
     }
@@ -159,7 +157,7 @@ $(function () {
     function initialiseList(elementId, array, textFunction, tipFunction) {
         $(elementId).empty();
 
-        array.forEach(function(film){
+        array.forEach(function (film) {
             $("<span></span>")
                 .addClass("listFilm")
                 .prop({
@@ -167,7 +165,7 @@ $(function () {
                     style: "background-color: {0}".format(film.colour)
                 })
                 .text(textFunction(film))
-                .click(function(){
+                .click(function () {
                     showFilmDetails(film.stateCode);
                 })
                 .prepend($("<img/>")
@@ -180,7 +178,7 @@ $(function () {
                     })
                 )
                 .appendTo(elementId);
-            });
+        });
     }
 
     function initialiseCount() {
