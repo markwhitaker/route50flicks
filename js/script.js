@@ -4,16 +4,16 @@ $(function () {
     const MAP_BACKGROUND_COLOUR = "#f0f0f0";
     const INACTIVE_MAP_COLOUR = "#555555";
     const ACTIVE_MAP_COLOURS = [
-        "#F0001E",
-        "#E0001C",
-        "#D1001A",
-        "#C20018",
-        "#B20016",
-        "#0500D6",
-        "#0400C7",
-        "#0400B8",
-        "#0400A8",
-        "#030099"
+        "#E1002A",
+        "#CB003B",
+        "#B4004D",
+        "#990062",
+        "#850072",
+        "#6D0084",
+        "#540098",
+        "#3D00AA",
+        "#2600BC",
+        "#0E00CF"
     ];
     const ALT_TEXT_FLAG = "State flag of {0}";
     const ALT_TEXT_POSTER = "Film poster for {0}";
