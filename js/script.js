@@ -1,4 +1,4 @@
-$(function () {
+$(document).ready(function () {
     const MAP_BACKGROUND_COLOUR = "#f0f0f0";
     const INACTIVE_MAP_COLOUR = "#d0d0d0";
     const ACTIVE_MAP_COLOURS = [
