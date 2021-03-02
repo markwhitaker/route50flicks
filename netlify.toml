@@ -1,3 +1,5 @@
+# Docs at https://docs.netlify.com/configure-builds/file-based-configuration/
+
 # If skip_processing = true, all other settings are ignored
 [build.processing]
   skip_processing = false
