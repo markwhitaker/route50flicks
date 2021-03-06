@@ -278,6 +278,8 @@ $(function () {
         $("#filmReviewer")
             .text(film.reviewer);
 
+        $(".modal-header").css("background-color", film.colour);
+
         $("#filmDetailsModal").modal();
     }
 
