@@ -37,6 +37,7 @@ $(function () {
         initialiseMap();
         initialiseStatesList();
         initialiseMoviesList();
+        initialiseStats();
     });
 
     //-----------------------------------------------------------
@@ -183,6 +184,45 @@ $(function () {
 
     function initialiseCount() {
         $("#filmCount").text(_filmsSortedByState.length);
+    }
+
+    function initialiseStats() {
+        initialiseStatsByDecade();
+        initialiseStatsStateInTitle();
+    }
+
+    function initialiseStatsByDecade() {
+        let byDecade = {};
+        _filmsSortedByState.forEach(function (film) {
+            var decade = film.year.toString().slice(0, 3) + "0s";
+            byDecade[decade] = (byDecade[decade] || 0) + 1;
+        });
+
+        const sortedKeys = Object.keys(byDecade).sort();
+        const sortedValues = sortedKeys.map(x => byDecade[x]);
+
+        let chartElement = $("#byDecade");
+        new Chart(chartElement, {
+            type: "doughnut",
+            data: {
+                labels: sortedKeys,
+                datasets: [{
+                    label: "By decade",
+                    data: sortedValues,
+                    // backgroundColor: [
+                    //     "rgb(255, 99, 132)",
+                    //     "rgb(54, 162, 235)",
+                    //     "rgb(255, 205, 86)"
+                    // ]
+                }]
+            }
+        });
+    }
+
+    function initialiseStatsStateInTitle() {
+        _filmsSortedByTitle
+            .filter(film => film.title.indexOf(film.state) > -1)
+            .forEach(film => $("#stateInTitle").append($("<p>" + film.title + "</p>")));
     }
 
     function showMap() {
