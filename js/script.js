@@ -3,7 +3,8 @@
 $(function () {
     const MAP_BACKGROUND_COLOUR = "#f0f0f0";
     const INACTIVE_MAP_COLOUR = "#d0d0d0";
-    const CHART_BORDER_COLOUR = "#909090";
+    const CHART_BACKGROUND_LINE_COLOUR = "#505050";
+    const CHART_FOREGROUND_LINE_COLOUR = "#a0a0a0";
     const ACTIVE_MAP_COLOURS = [
         "#E1002A",
         "#CB003B",
@@ -232,7 +233,25 @@ $(function () {
                         display: false
                     }
                 },
-                borderWidth: 1
+                borderWidth: 1,
+                scales: {
+                    x: {
+                        grid: {
+                            color: CHART_BACKGROUND_LINE_COLOUR
+                        },
+                        ticks: {
+                            color: CHART_FOREGROUND_LINE_COLOUR
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: CHART_BACKGROUND_LINE_COLOUR
+                        },
+                        ticks: {
+                            color: CHART_FOREGROUND_LINE_COLOUR
+                        }
+                    }
+                }
             },
             data: {
                 labels: sortedKeys,
@@ -241,7 +260,7 @@ $(function () {
                     fill: true,
                     data: sortedValues,
                     backgroundColor: ACTIVE_MAP_COLOURS.slice(0, sortedKeys.length),
-                    borderColor: CHART_BORDER_COLOUR,
+                    borderColor: CHART_FOREGROUND_LINE_COLOUR,
                     borderWidth: 1
                 }]
             }
