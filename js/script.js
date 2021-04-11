@@ -41,6 +41,9 @@ $(function () {
         TITLE: function (film) {
             return film.title.sortable();
         },
+        TITLE_LENGTH: function (film) {
+            return film.title.length;
+        },
         STATE: function (film) {
             return film.state;
         },
@@ -224,7 +227,6 @@ $(function () {
         new Chart(chartElement, {
             type: "bar",
             options: {
-                // indexAxis: "y",
                 plugins: {
                     legend: {
                         display: false
@@ -261,7 +263,7 @@ $(function () {
     }
 
     function initialiseStatsLongestShortestTitle() {
-        let filmsSortedByTitleLength = _filmsSortedByTitle.slice().sortBy(SORT_FUNCTION.TITLE);
+        let filmsSortedByTitleLength = _filmsSortedByTitle.slice().sortBy(SORT_FUNCTION.TITLE_LENGTH);
 
         $("#longestShortest").append(
             buildMovieButton(filmsSortedByTitleLength.shift(), BUTTON_TYPE.TITLE),
