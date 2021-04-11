@@ -45,6 +45,7 @@
 @tshirt-icon-size: 120px;
 @film-image-width: 200px;
 @film-image-height: 250px;
+@stats-logo-size: 20px;
 
 
 // -------------------------------
@@ -120,6 +121,15 @@ body {
     .statsSections > div {
         margin-bottom: @padding-large;
     }
+}
+
+#statsLogo {
+    display: inline-block;
+    margin-right: @padding-medium;
+    background-image: url(/images/stats.svg);
+    background-repeat: no-repeat;
+    width: @stats-logo-size;
+    height: @stats-logo-size;
 }
 
 #filmCount {
