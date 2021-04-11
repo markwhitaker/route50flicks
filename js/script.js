@@ -3,6 +3,7 @@
 $(function () {
     const MAP_BACKGROUND_COLOUR = "#f0f0f0";
     const INACTIVE_MAP_COLOUR = "#d0d0d0";
+    const CHART_BORDER_COLOUR = "#909090";
     const ACTIVE_MAP_COLOURS = [
         "#E1002A",
         "#CB003B",
@@ -201,6 +202,8 @@ $(function () {
     function initialiseStats() {
         initialiseStatsByDecade();
         initialiseStatsStateInTitle();
+        initialiseStatsOldestNewest();
+        initialiseStatsLongestShortestTitle();
     }
 
     function initialiseStatsByDecade() {
@@ -215,17 +218,25 @@ $(function () {
 
         let chartElement = $("#byDecade");
         new Chart(chartElement, {
-            type: "doughnut",
+            type: "bar",
+            options: {
+                // indexAxis: "y",
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                borderWidth: 1
+            },
             data: {
                 labels: sortedKeys,
                 datasets: [{
-                    label: "By decade",
+                    label: "Total",
+                    fill: true,
                     data: sortedValues,
-                    // backgroundColor: [
-                    //     "rgb(255, 99, 132)",
-                    //     "rgb(54, 162, 235)",
-                    //     "rgb(255, 205, 86)"
-                    // ]
+                    backgroundColor: ACTIVE_MAP_COLOURS.slice(0, sortedKeys.length),
+                    borderColor: CHART_BORDER_COLOUR,
+                    borderWidth: 1
                 }]
             }
         });
@@ -235,6 +246,28 @@ $(function () {
         _filmsSortedByTitle
             .filter(film => film.title.indexOf(film.state) > -1)
             .forEach(film => $("#stateInTitle").append(buildMovieButton(film, BUTTON_TYPE.TITLE)));
+    }
+
+    function initialiseStatsOldestNewest() {
+        let filmsSortedByYear = _filmsSortedByTitle.slice().sort(function (a, b) {
+            return (a.year < b.year) ? -1 :
+            (a.year > b.year) ? 1 : 0;
+        })
+
+        $("#oldestNewest").append(
+            buildMovieButton(filmsSortedByYear.shift(), BUTTON_TYPE.TITLE),
+            buildMovieButton(filmsSortedByYear.pop(), BUTTON_TYPE.TITLE));
+    }
+
+    function initialiseStatsLongestShortestTitle() {
+        let filmsSortedByTitleLength = _filmsSortedByTitle.slice().sort(function (a, b) {
+            return (a.title.length < b.title.length) ? -1 :
+            (a.title.length > b.title.length) ? 1 : 0;
+        })
+
+        $("#longestShortest").append(
+            buildMovieButton(filmsSortedByTitleLength.shift(), BUTTON_TYPE.TITLE),
+            buildMovieButton(filmsSortedByTitleLength.pop(), BUTTON_TYPE.TITLE));
     }
 
     function showMap() {
