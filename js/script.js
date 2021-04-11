@@ -37,6 +37,18 @@ $(function () {
         }
     });
 
+    const SORT_FUNCTION = Object.freeze({
+        TITLE: function (film) {
+            return film.title.sortable();
+        },
+        STATE: function (film) {
+            return film.state;
+        },
+        YEAR: function (film) {
+            return film.year;
+        }
+    });
+
     let _map;
     let _films = {};
     let _filmsSortedByState = [];
@@ -90,16 +102,8 @@ $(function () {
                 film.colour = getRandomActiveMapColour();
                 _films[film.stateCode] = film;
             });
-            _filmsSortedByState = filmsArray.sort(function (a, b) {
-                return (a.state < b.state) ? -1 :
-                    (a.state > b.state) ? 1 : 0;
-            });
-            _filmsSortedByTitle = filmsArray.slice().sort(function (a, b) {
-                let aTitle = a.title.sortable();
-                let bTitle = b.title.sortable();
-                return (aTitle < bTitle) ? -1 :
-                    (aTitle > bTitle) ? 1 : 0;
-            });
+            _filmsSortedByState = filmsArray.sortBy(SORT_FUNCTION.STATE);
+            _filmsSortedByTitle = filmsArray.slice().sortBy(SORT_FUNCTION.TITLE);
 
             onLoaded();
         });
@@ -249,10 +253,7 @@ $(function () {
     }
 
     function initialiseStatsOldestNewest() {
-        let filmsSortedByYear = _filmsSortedByTitle.slice().sort(function (a, b) {
-            return (a.year < b.year) ? -1 :
-            (a.year > b.year) ? 1 : 0;
-        })
+        let filmsSortedByYear = _filmsSortedByTitle.slice().sortBy(SORT_FUNCTION.YEAR);
 
         $("#oldestNewest").append(
             buildMovieButton(filmsSortedByYear.shift(), BUTTON_TYPE.TITLE),
@@ -260,10 +261,7 @@ $(function () {
     }
 
     function initialiseStatsLongestShortestTitle() {
-        let filmsSortedByTitleLength = _filmsSortedByTitle.slice().sort(function (a, b) {
-            return (a.title.length < b.title.length) ? -1 :
-            (a.title.length > b.title.length) ? 1 : 0;
-        })
+        let filmsSortedByTitleLength = _filmsSortedByTitle.slice().sortBy(SORT_FUNCTION.TITLE);
 
         $("#longestShortest").append(
             buildMovieButton(filmsSortedByTitleLength.shift(), BUTTON_TYPE.TITLE),
@@ -392,5 +390,11 @@ $(function () {
 
     String.prototype.sortable = function () {
         return this.replace(/^(A|The) /, "");
+    }
+
+    Array.prototype.sortBy = function (sortFunction) {
+        return this.sort(function (a, b) {
+            return sortFunction(a) < sortFunction(b) ? -1 : sortFunction(a) > sortFunction(b) ? 1 : 0
+        });
     }
 });
