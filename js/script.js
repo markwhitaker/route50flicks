@@ -25,6 +25,17 @@ $(function () {
     const URL_WIKIPEDIA = "https://en.wikipedia.org/wiki/{0}";
     const URL_YOUTUBE = "https://www.youtube.com/watch?v={0}";
 
+    const BUTTON_TYPE = Object.freeze({
+        TITLE: {
+            getCaption: getFilmTitleAndYear,
+            getTip: getFilmState
+        },
+        STATE: {
+            getCaption: getFilmState,
+            getTip: getFilmTitleAndYear
+        }
+    });
+
     let _map;
     let _films = {};
     let _filmsSortedByState = [];
@@ -135,51 +146,52 @@ $(function () {
         initialiseList(
             "#listStates",
             _filmsSortedByState,
-            function (film) {
-                return film.state;
-            },
-            function (film) {
-                return "{0} ({1})".format(film.title, film.year);
-            });
+            BUTTON_TYPE.STATE);
     }
 
     function initialiseMoviesList() {
         initialiseList(
             "#listMovies",
             _filmsSortedByTitle,
-            function (film) {
-                return "{0} ({1})".format(film.title, film.year);
-            },
-            function (film) {
-                return film.state;
-            });
+            BUTTON_TYPE.TITLE);
     }
 
-    function initialiseList(elementId, array, textFunction, tipFunction) {
+    function initialiseList(elementId, array, buttonType) {
         $(elementId).empty();
 
         array.forEach(function (film) {
-            $("<span></span>")
-                .addClass("listFilm")
-                .prop({
-                    title: tipFunction(film),
-                    style: "background-color: {0}".format(film.colour)
-                })
-                .text(textFunction(film))
-                .click(function () {
-                    showFilmDetails(film.stateCode);
-                })
-                .prepend($("<img/>")
-                    .prop({
-                        src: flagUrl(film),
-                        alt: ALT_TEXT_FLAG.format(film.state)
-                    })
-                    .on("error", function () {
-                        $(this).hide();
-                    })
-                )
-                .appendTo(elementId);
+            $(elementId).append(buildMovieButton(film, buttonType));
         });
+    }
+
+    function buildMovieButton(film, buttonType) {
+        return $("<span></span>")
+            .addClass("filmButton")
+            .prop({
+                title: buttonType.getTip(film),
+                style: "background-color: {0}".format(film.colour)
+            })
+            .text(buttonType.getCaption(film))
+            .click(function () {
+                showFilmDetails(film.stateCode);
+            })
+            .prepend($("<img/>")
+                .prop({
+                    src: flagUrl(film),
+                    alt: ALT_TEXT_FLAG.format(film.state)
+                })
+                .on("error", function () {
+                    $(this).hide();
+                })
+            );
+    }
+
+    function getFilmState(film) {
+        return film.state;
+    }
+
+    function getFilmTitleAndYear(film) {
+        return "{0} ({1})".format(film.title, film.year);
     }
 
     function initialiseCount() {
@@ -222,7 +234,7 @@ $(function () {
     function initialiseStatsStateInTitle() {
         _filmsSortedByTitle
             .filter(film => film.title.indexOf(film.state) > -1)
-            .forEach(film => $("#stateInTitle").append($("<p>" + film.title + "</p>")));
+            .forEach(film => $("#stateInTitle").append(buildMovieButton(film, BUTTON_TYPE.TITLE)));
     }
 
     function showMap() {
