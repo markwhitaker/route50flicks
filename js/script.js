@@ -3,6 +3,8 @@
 $(function () {
     const MAP_BACKGROUND_COLOUR = "#f0f0f0";
     const INACTIVE_MAP_COLOUR = "#d0d0d0";
+    const CHART_BACKGROUND_LINE_COLOUR = "#505050";
+    const CHART_FOREGROUND_LINE_COLOUR = "#a0a0a0";
     const ACTIVE_MAP_COLOURS = [
         "#E1002A",
         "#CB003B",
@@ -25,6 +27,32 @@ $(function () {
     const URL_WIKIPEDIA = "https://en.wikipedia.org/wiki/{0}";
     const URL_YOUTUBE = "https://www.youtube.com/watch?v={0}";
 
+    const BUTTON_TYPE = Object.freeze({
+        TITLE: {
+            getCaption: getFilmTitleAndYear,
+            getTip: getFilmState
+        },
+        STATE: {
+            getCaption: getFilmState,
+            getTip: getFilmTitleAndYear
+        }
+    });
+
+    const SORT_FUNCTION = Object.freeze({
+        TITLE: function (film) {
+            return film.title.sortable();
+        },
+        TITLE_LENGTH: function (film) {
+            return film.title.length;
+        },
+        STATE: function (film) {
+            return film.state;
+        },
+        YEAR: function (film) {
+            return film.year;
+        }
+    });
+
     let _map;
     let _films = {};
     let _filmsSortedByState = [];
@@ -37,6 +65,7 @@ $(function () {
         initialiseMap();
         initialiseStatesList();
         initialiseMoviesList();
+        initialiseStats();
     });
 
     //-----------------------------------------------------------
@@ -77,16 +106,8 @@ $(function () {
                 film.colour = getRandomActiveMapColour();
                 _films[film.stateCode] = film;
             });
-            _filmsSortedByState = filmsArray.sort(function (a, b) {
-                return (a.state < b.state) ? -1 :
-                    (a.state > b.state) ? 1 : 0;
-            });
-            _filmsSortedByTitle = filmsArray.slice().sort(function (a, b) {
-                let aTitle = a.title.sortable();
-                let bTitle = b.title.sortable();
-                return (aTitle < bTitle) ? -1 :
-                    (aTitle > bTitle) ? 1 : 0;
-            });
+            _filmsSortedByState = filmsArray.sortBy(SORT_FUNCTION.STATE);
+            _filmsSortedByTitle = filmsArray.slice().sortBy(SORT_FUNCTION.TITLE);
 
             onLoaded();
         });
@@ -134,55 +155,138 @@ $(function () {
         initialiseList(
             "#listStates",
             _filmsSortedByState,
-            function (film) {
-                return film.state;
-            },
-            function (film) {
-                return "{0} ({1})".format(film.title, film.year);
-            });
+            BUTTON_TYPE.STATE);
     }
 
     function initialiseMoviesList() {
         initialiseList(
             "#listMovies",
             _filmsSortedByTitle,
-            function (film) {
-                return "{0} ({1})".format(film.title, film.year);
-            },
-            function (film) {
-                return film.state;
-            });
+            BUTTON_TYPE.TITLE);
     }
 
-    function initialiseList(elementId, array, textFunction, tipFunction) {
+    function initialiseList(elementId, array, buttonType) {
         $(elementId).empty();
 
         array.forEach(function (film) {
-            $("<span></span>")
-                .addClass("listFilm")
-                .prop({
-                    title: tipFunction(film),
-                    style: "background-color: {0}".format(film.colour)
-                })
-                .text(textFunction(film))
-                .click(function () {
-                    showFilmDetails(film.stateCode);
-                })
-                .prepend($("<img/>")
-                    .prop({
-                        src: flagUrl(film),
-                        alt: ALT_TEXT_FLAG.format(film.state)
-                    })
-                    .on("error", function () {
-                        $(this).hide();
-                    })
-                )
-                .appendTo(elementId);
+            $(elementId).append(buildMovieButton(film, buttonType));
         });
+    }
+
+    function buildMovieButton(film, buttonType) {
+        return $("<span></span>")
+            .addClass("filmButton")
+            .prop({
+                title: buttonType.getTip(film),
+                style: "background-color: {0}".format(film.colour)
+            })
+            .text(buttonType.getCaption(film))
+            .click(function () {
+                showFilmDetails(film.stateCode);
+            })
+            .prepend($("<img/>")
+                .prop({
+                    src: flagUrl(film),
+                    alt: ALT_TEXT_FLAG.format(film.state)
+                })
+                .on("error", function () {
+                    $(this).hide();
+                })
+            );
+    }
+
+    function getFilmState(film) {
+        return film.state;
+    }
+
+    function getFilmTitleAndYear(film) {
+        return "{0} ({1})".format(film.title, film.year);
     }
 
     function initialiseCount() {
         $("#filmCount").text(_filmsSortedByState.length);
+    }
+
+    function initialiseStats() {
+        initialiseStatsByDecade();
+        initialiseStatsStateInTitle();
+        initialiseStatsOldestNewest();
+        initialiseStatsLongestShortestTitle();
+    }
+
+    function initialiseStatsByDecade() {
+        let byDecade = {};
+        _filmsSortedByState.forEach(function (film) {
+            var decade = film.year.toString().slice(0, 3) + "0s";
+            byDecade[decade] = (byDecade[decade] || 0) + 1;
+        });
+
+        const sortedKeys = Object.keys(byDecade).sort();
+        const sortedValues = sortedKeys.map(x => byDecade[x]);
+
+        let chartElement = $("#byDecade");
+        new Chart(chartElement, {
+            type: "bar",
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                borderWidth: 1,
+                scales: {
+                    x: {
+                        grid: {
+                            color: CHART_BACKGROUND_LINE_COLOUR
+                        },
+                        ticks: {
+                            color: CHART_FOREGROUND_LINE_COLOUR
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: CHART_BACKGROUND_LINE_COLOUR
+                        },
+                        ticks: {
+                            color: CHART_FOREGROUND_LINE_COLOUR
+                        }
+                    }
+                }
+            },
+            data: {
+                labels: sortedKeys,
+                datasets: [{
+                    label: "Total",
+                    fill: true,
+                    data: sortedValues,
+                    backgroundColor: ACTIVE_MAP_COLOURS.slice(0, sortedKeys.length),
+                    borderColor: CHART_FOREGROUND_LINE_COLOUR,
+                    borderWidth: 1
+                }]
+            }
+        });
+    }
+
+    function initialiseStatsStateInTitle() {
+        _filmsSortedByTitle
+            .filter(film => film.title.indexOf(film.state) > -1)
+            .forEach(film => $("#stateInTitle").append(buildMovieButton(film, BUTTON_TYPE.TITLE)));
+    }
+
+    function initialiseStatsOldestNewest() {
+        let filmsSortedByYear = _filmsSortedByTitle.slice().sortBy(SORT_FUNCTION.YEAR);
+
+        $("#oldestNewest").append(
+            buildMovieButton(filmsSortedByYear.shift(), BUTTON_TYPE.TITLE),
+            buildMovieButton(filmsSortedByYear.pop(), BUTTON_TYPE.TITLE));
+    }
+
+    function initialiseStatsLongestShortestTitle() {
+        let filmsSortedByTitleLength = _filmsSortedByTitle.slice().sortBy(SORT_FUNCTION.TITLE_LENGTH);
+
+        $("#longestShortest").append(
+            buildMovieButton(filmsSortedByTitleLength.shift(), BUTTON_TYPE.TITLE),
+            buildMovieButton(filmsSortedByTitleLength.pop(), BUTTON_TYPE.TITLE));
     }
 
     function showMap() {
@@ -307,5 +411,11 @@ $(function () {
 
     String.prototype.sortable = function () {
         return this.replace(/^(A|The) /, "");
+    }
+
+    Array.prototype.sortBy = function (sortFunction) {
+        return this.sort(function (a, b) {
+            return sortFunction(a) < sortFunction(b) ? -1 : sortFunction(a) > sortFunction(b) ? 1 : 0
+        });
     }
 });

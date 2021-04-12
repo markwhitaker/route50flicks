@@ -134,6 +134,35 @@
     </div>
   </div>
 
+  <!-- Stats -->
+  <div class="container-fluid" id="stats">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2><span id="statsLogo"></span>Stats zone</h2>
+        </div>
+      </div>
+      <div class="row statsSections">
+        <div class="col-lg-3">
+          <h3>Movies by decade</h3>
+          <canvas id="byDecade"></canvas>
+        </div>
+        <div class="col-lg-3">
+          <h3>Oldest &amp; newest</h3>
+          <div id="oldestNewest"></div>
+        </div>
+        <div class="col-lg-3">
+          <h3>Shortest &amp; longest title</h3>
+          <div id="longestShortest"></div>
+        </div>
+        <div class="col-lg-3">
+          <h3>The state is in the title</h3>
+          <div id="stateInTitle"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <div class="container content">
     <div class="row" id="footer">
@@ -141,7 +170,7 @@
         <p>Made by <a href="https://twitter.com/travischuckle">Mark Whitaker</a>.</p>
         <p>Part of the <a href="https://witterworld.com/">WITTERWORLD</a> family.</p>
         <p>Licensed under the <a href="https://github.com/markwhitaker/route50flicks/blob/master/LICENSE">GNU General Public License v3.0</a>.</p>
-        <p>Made with <a href="https://getbootstrap.com/">Bootstrap</a>, <a href="https://jvectormap.com/">jVectorMap</a>, <a href="https://flagpedia.net/">Flagpedia</a>, <a href="https://jquery.com/">jQuery</a>, <a href="https://code.visualstudio.com/">Visual Studio Code</a> and <a href="https://affinity.serif.com/en-gb/designer/">Affinity Designer</a>.</p>
+        <p>Made with <a href="https://getbootstrap.com/">Bootstrap</a>, <a href="https://jvectormap.com/">jVectorMap</a>, <a href="https://flagpedia.net/">Flagpedia</a>, <a href="https://jquery.com/">jQuery</a>, <a href="https://www.chartjs.org/">Chart.js</a>, <a href="https://code.visualstudio.com/">Visual Studio Code</a> and <a href="https://affinity.serif.com/en-gb/designer/">Affinity Designer</a>.</p>
         <p>Hosted on <a href="https://www.netlify.com/">Netlify</a>.</p>
         <p>Open sourced on <a href="https://github.com/markwhitaker/route50flicks">GitHub</a>.</p>
         <p>No cookies. No trackers.</p>
@@ -197,6 +226,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
   <script src="js/libs/jquery-jvectormap-2.0.5.min.js"></script>
   <script src="js/libs/jquery-jvectormap-us-aea.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js" integrity="sha256-9CKDuBNIQo/dQgrK9nyK+XcD2MBjb0JgnPMANrQw6Cs=" crossorigin="anonymous"></script>
   <script src="js/script.min.js"></script>
 </body>
 

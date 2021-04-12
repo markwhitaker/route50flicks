@@ -8,7 +8,8 @@
 @colour-white: #ffffff;
 @colour-white-semi-opaque: #ffffffaa;
 @colour-light-grey: #f0f0f0;
-@colour-dark-grey: #909090;
+@colour-mid-grey: #606060;
+@colour-dark-grey: #404040;
 @colour-black: #000000;
 @colour-yellow: #FFB100;
 @colour-light-yellow: #FFEEBA;
@@ -44,6 +45,7 @@
 @tshirt-icon-size: 120px;
 @film-image-width: 200px;
 @film-image-height: 250px;
+@stats-logo-size: 20px;
 
 
 // -------------------------------
@@ -63,30 +65,30 @@ body {
 }
 
 .listIntroduction {
-    font-size: @font-size-small;
     margin-top: @padding-large;
     margin-bottom: @padding-large;
 }
 
 .list {
     padding-bottom: @padding-xlarge;
-    .listFilm {
-        display: inline-block;
-        border-radius: @padding-small;
-        cursor: pointer;
-        background-color: @colour-blue;
-        color: @colour-white;
-        padding: @padding-small @padding-medium;
-        margin: 0 @padding-medium @padding-medium 0;
+}
 
-        &:hover {
-            opacity: 80%;
-        }
+.filmButton {
+    display: inline-block;
+    border-radius: @padding-small;
+    cursor: pointer;
+    background-color: @colour-blue;
+    color: @colour-white;
+    padding: @padding-small @padding-medium;
+    margin: 0 @padding-medium @padding-medium 0;
 
-        img {
-            height: 1em;
-            padding-right: @padding-small;
-        }
+    &:hover {
+        opacity: 80%;
+    }
+
+    img {
+        height: 1em;
+        padding-right: @padding-small;
     }
 }
 
@@ -96,6 +98,38 @@ body {
     .listen {
         font-size: @font-size-small;
     }
+}
+
+#stats {
+    background-color: @colour-dark-grey;
+    color: @colour-light-grey;
+    padding-top: @padding-large;
+
+    h2, h3 {
+        font-family: @font-family-default;
+        font-weight: @font-weight-black;
+        text-transform: uppercase;
+    }
+    h2 {
+        font-size: @font-size-xlarge;
+        color: @colour-mid-grey;
+        margin-bottom: @padding-large;
+    }
+    h3 {
+        font-size: @font-size-regular;
+    }
+    .statsSections > div {
+        margin-bottom: @padding-large;
+    }
+}
+
+#statsLogo {
+    display: inline-block;
+    margin-right: @padding-medium;
+    background-image: url(/images/stats.svg);
+    background-repeat: no-repeat;
+    width: @stats-logo-size;
+    height: @stats-logo-size;
 }
 
 #filmCount {
@@ -273,7 +307,7 @@ body {
     font-family: @font-family-international;
     font-weight: @font-weight-normal;
     font-size: @font-size-regular;
-    color: @colour-dark-grey;
+    color: @colour-mid-grey;
     line-height: 1em;
     margin-top: 0.5em;
 }
