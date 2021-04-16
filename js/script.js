@@ -43,7 +43,7 @@ $(function () {
             return film.title.sortable();
         },
         TITLE_LENGTH: function (film) {
-            return film.title.length;
+            return film.title.replaceAll(" ", "").length;
         },
         STATE: function (film) {
             return film.state;
