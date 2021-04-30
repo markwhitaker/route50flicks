@@ -73,7 +73,8 @@ $(function () {
     function initialiseEventHandlers() {
         $("a").not("#exorcist").prop("target", "_blank");
 
-        $("a#exorcist").click(function () {
+        $("a#exorcist").click(function (event) {
+            event.preventDefault();
             showFilmDetails("US-DC");
         })
 
