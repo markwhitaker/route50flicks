@@ -71,7 +71,11 @@ $(function () {
     //-----------------------------------------------------------
 
     function initialiseEventHandlers() {
-        $("a").prop("target", "_blank");
+        $("a").not("#exorcist").prop("target", "_blank");
+
+        $("a#exorcist").click(function () {
+            showFilmDetails("US-DC");
+        })
 
         $("#btnShowMap").click(function () {
             showMap();
