@@ -17,15 +17,6 @@ $(function () {
         "#2600BC",
         "#0E00CF"
     ];
-    const ALT_TEXT_FLAG = "State flag of {0}";
-    const ALT_TEXT_POSTER = "Film poster for {0}";
-    const URL_FLAG = "https://flagcdn.com/{0}.svg";
-    const URL_IMDB = "https://www.imdb.com/title/{0}/";
-    const URL_JUST_WATCH = "https://www.justwatch.com/uk/movie/{0}";
-    const URL_LETTERBOXD = "https://letterboxd.com/film/{0}/";
-    const URL_ROTTEN_TOMATOES = "https://www.rottentomatoes.com/m/{0}";
-    const URL_WIKIPEDIA = "https://en.wikipedia.org/wiki/{0}";
-    const URL_YOUTUBE = "https://www.youtube.com/watch?v={0}";
 
     const BUTTON_TYPE = Object.freeze({
         TITLE: {
@@ -50,6 +41,36 @@ $(function () {
         },
         YEAR: function (film) {
             return film.year;
+        }
+    });
+
+    const FORMAT = Object.freeze({
+        ALT_TEXT_FLAG: function (state) {
+            return `State flag of ${state}`;
+        },
+        ALT_TEXT_POSTER: function (film) {
+            return `Poster for ${film}`;
+        },
+        URL_FLAG: function (country) {
+            return `https://flagcdn.com/${country}.svg`;
+        },
+        URL_IMDB: function (slug) {
+            return `https://www.imdb.com/title/${slug}/`;
+        },
+        URL_JUST_WATCH: function (slug) {
+            return `https://www.justwatch.com/uk/movie/${slug}`;
+        },
+        URL_LETTERBOXD: function (slug) {
+            return `https://letterboxd.com/film/${slug}/`;
+        },
+        URL_ROTTEN_TOMATOES: function (slug) {
+            return `https://www.rottentomatoes.com/m/${slug}`;
+        },
+        URL_WIKIPEDIA: function (slug) {
+            return `https://en.wikipedia.org/wiki/${slug}`;
+        },
+        URL_YOUTUBE: function (slug) {
+            return `https://www.youtube.com/watch?v=${slug}`;
         }
     });
 
@@ -140,7 +161,7 @@ $(function () {
             onRegionTipShow: function (_, tip, code) {
                 let film = _films[code];
                 if (film) {
-                    tip.text("{0}: {1} ({2})".format(film.state, film.title, film.year));
+                    tip.text(`${film.state}: ${film.title} (${film.year})`);
                 }
             }
         });
@@ -183,7 +204,7 @@ $(function () {
             .addClass("filmButton")
             .prop({
                 title: buttonType.getTip(film),
-                style: "background-color: {0}".format(film.colour)
+                style: `background-color: ${film.colour}`
             })
             .text(buttonType.getCaption(film))
             .click(function () {
@@ -192,7 +213,7 @@ $(function () {
             .prepend($("<img/>")
                 .prop({
                     src: flagUrl(film),
-                    alt: ALT_TEXT_FLAG.format(film.state)
+                    alt: FORMAT.ALT_TEXT_FLAG(film.state)
                 })
                 .on("error", function () {
                     $(this).hide();
@@ -205,7 +226,7 @@ $(function () {
     }
 
     function getFilmTitleAndYear(film) {
-        return "{0} ({1})".format(film.title, film.year);
+        return `${film.title} (${film.year})`;
     }
 
     function initialiseCount() {
@@ -360,7 +381,7 @@ $(function () {
         $("#filmStateFlag")
             .prop({
                 src: flagUrl(film),
-                alt: ALT_TEXT_FLAG.format(film.state)
+                alt: FORMAT.ALT_TEXT_FLAG(film.state)
             });
 
         $("#filmImageContainer")
@@ -368,7 +389,7 @@ $(function () {
         $("#filmImage")
             .prop({
                 src: film.image,
-                alt: ALT_TEXT_POSTER.format(film.title)
+                alt: FORMAT.ALT_TEXT_POSTER(film.title)
             })
             .toggle(!!film.image);
 
@@ -376,13 +397,13 @@ $(function () {
             .text(film.originalTitle)
             .toggle(!!film.originalTitle);
 
-        setupButton("#imdbLink", URL_IMDB, film.imdb);
-        setupButton("#letterboxdLink", URL_LETTERBOXD, film.letterboxd);
-        setupButton("#rottenTomatoesLink", URL_ROTTEN_TOMATOES, film.rottenTomatoes);
-        setupButton("#wikipediaLink", URL_WIKIPEDIA, film.wikipedia);
-        setupButton("#justwatchLink", URL_JUST_WATCH, film.justwatch);
-        setupButton("#trailerLink", URL_YOUTUBE, film.trailer);
-        setupButton("#reviewLink", URL_YOUTUBE, film.review);
+        setupButton("#imdbLink", FORMAT.URL_IMDB, film.imdb);
+        setupButton("#letterboxdLink", FORMAT.URL_LETTERBOXD, film.letterboxd);
+        setupButton("#rottenTomatoesLink", FORMAT.URL_ROTTEN_TOMATOES, film.rottenTomatoes);
+        setupButton("#wikipediaLink", FORMAT.URL_WIKIPEDIA, film.wikipedia);
+        setupButton("#justwatchLink", FORMAT.URL_JUST_WATCH, film.justwatch);
+        setupButton("#trailerLink", FORMAT.URL_YOUTUBE, film.trailer);
+        setupButton("#reviewLink", FORMAT.URL_YOUTUBE, film.review);
 
         $("#filmReviewer")
             .text(film.reviewer);
@@ -392,10 +413,10 @@ $(function () {
         $("#filmDetailsModal").modal();
     }
 
-    function setupButton(selector, url, value) {
+    function setupButton(selector, urlFunction, value) {
         $(selector)
             .prop({
-                href: url.format(value)
+                href: urlFunction(value)
             })
             .toggle(!!value);
     }
@@ -403,15 +424,7 @@ $(function () {
     function flagUrl(film) {
         return film.stateCode === "US-DC"
             ? "https://upload.wikimedia.org/wikipedia/commons/d/d4/Flag_of_the_District_of_Columbia.svg"
-            : URL_FLAG.format(film.stateCode.toLowerCase());
-    }
-
-    String.prototype.format = function () {
-        let formatted = this;
-        for (let i = 0; i < arguments.length; i++) {
-            formatted = formatted.replace("{" + i + "}", arguments[i]);
-        }
-        return formatted;
+            : FORMAT.URL_FLAG(film.stateCode.toLowerCase());
     }
 
     String.prototype.sortable = function () {
