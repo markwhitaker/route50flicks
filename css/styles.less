@@ -13,6 +13,10 @@
 @colour-black: #000000;
 @colour-yellow: #FFB100;
 @colour-light-yellow: #FFEEBA;
+@colour-lights-canada-action-red: #D1001A;
+@colour-lights-canada-action-light-red: #FFD6DC;
+@colour-witterworld-blue: #00B3DB;
+@colour-witterworld-light-blue: #E6F6FA;
 
 // Font families
 @font-family-title: Monoton, Raleway, Arial, Helvetica, sans-serif;
@@ -42,10 +46,10 @@
 @map-height: 600px;
 @section-min-height: 450px;
 @site-icon-size: 120px;
-@tshirt-icon-size: 120px;
 @film-image-width: 200px;
 @film-image-height: 250px;
 @stats-logo-size: 20px;
+@small-icon-size: 50px;
 
 
 // -------------------------------
@@ -202,6 +206,35 @@ body {
         color: @colour-white;
         border-radius: @padding-medium @padding-medium 0 0;
         margin: 0;
+    }
+}
+
+#witterworld,
+#lightsCanadaAction {
+    border-radius: @padding-medium;
+    padding: @padding-large @padding-medium @padding-large (@small-icon-size + (@padding-medium * 2));
+    margin-bottom: @padding-large;
+    min-height: @padding-xxxlarge;
+    background-size: @small-icon-size @small-icon-size;
+    background-repeat: no-repeat;
+    background-position: @padding-medium;
+}
+
+#witterworld {
+    background-color: @colour-witterworld-light-blue;
+    background-image: url(/images/witterworld.svg);
+
+    a:hover {
+        color: @colour-witterworld-blue;
+    }
+}
+
+#lightsCanadaAction {
+    background-color: @colour-lights-canada-action-light-red;
+    background-image: url(/images/lights-canada-action.svg);
+
+    a:hover {
+        color: @colour-lights-canada-action-red;
     }
 }
 

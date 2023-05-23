@@ -11,7 +11,7 @@ Full source code for [Route 50 Flicks](https://route50flicks.com), the Wittertai
 [You just build it](https://witterpedia.net/wiki/index.php/How_do_you...%3F_You_just...!).
 
 I use [Microsoft Visual Studio Code](https://code.visualstudio.com/) with these extensions:
-- [JS & CSS Minifier (Minify)](https://marketplace.visualstudio.com/items?itemName=olback.es6-css-minify)
+- [Minify](https://marketplace.visualstudio.com/items?itemName=HookyQR.minify)
 - [Easy LESS](https://marketplace.visualstudio.com/items?itemName=mrcrowl.easy-less)
 - [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
 
