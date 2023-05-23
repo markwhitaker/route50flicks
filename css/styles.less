@@ -205,44 +205,6 @@ body {
     }
 }
 
-#buyMerch {
-    background-color: @colour-light-yellow;
-    border-radius: @padding-medium;
-    position: relative;
-    min-height: @tshirt-icon-size + (@padding-medium * 2);
-    margin-bottom: @padding-large;
-
-    & > * {
-        padding: @padding-medium @padding-large @padding-medium (@tshirt-icon-size + (@padding-medium * 2));
-    }
-
-    h5 {
-        font-size: @font-size-xlarge;
-        font-weight: @font-weight-black;
-        text-transform: uppercase;
-        background-color: @colour-yellow;
-        color: @colour-white;
-        border-radius: @padding-medium @padding-medium 0 0;
-        margin: 0;
-    }
-
-    #tshirtIcon {
-        background-image: url(/images/tshirt.svg);
-        background-repeat: no-repeat;
-        position: absolute;
-        left: @padding-medium;
-        top: @padding-small;
-        height: @tshirt-icon-size;
-        width: @tshirt-icon-size;
-        transform: rotate(-10deg);
-        filter: drop-shadow(10px, 10px, 10px, white);
-    }
-
-    a:hover {
-        color: @colour-yellow;
-    }
-}
-
 #topContent {
     margin-bottom: @padding-xlarge;
 }
