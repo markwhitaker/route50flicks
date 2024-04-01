@@ -1,10 +1,10 @@
 "use strict";
 
 $(function () {
-    const MAP_BACKGROUND_COLOUR = "#f0f0f0";
-    const INACTIVE_MAP_COLOUR = "#d0d0d0";
+    const MAP_BACKGROUND_COLOUR = "#F0F0F0";
+    const INACTIVE_MAP_COLOUR = "#D0D0D0";
     const CHART_BACKGROUND_LINE_COLOUR = "#505050";
-    const CHART_FOREGROUND_LINE_COLOUR = "#a0a0a0";
+    const CHART_FOREGROUND_LINE_COLOUR = "#A0A0A0";
     const ACTIVE_MAP_COLOURS = [
         "#E1002A",
         "#CB003B",
@@ -30,48 +30,22 @@ $(function () {
     });
 
     const SORT_FUNCTION = Object.freeze({
-        TITLE: function (film) {
-            return film.title.sortable();
-        },
-        TITLE_LENGTH: function (film) {
-            return film.title.replaceAll(" ", "").length;
-        },
-        STATE: function (film) {
-            return film.state;
-        },
-        YEAR: function (film) {
-            return film.year;
-        }
+        TITLE: film => film.title.sortable(),
+        TITLE_LENGTH: film => film.title.replaceAll(" ", "").length,
+        STATE: film => film.state,
+        YEAR: film => film.year
     });
 
     const FORMAT = Object.freeze({
-        ALT_TEXT_FLAG: function (state) {
-            return `State flag of ${state}`;
-        },
-        ALT_TEXT_POSTER: function (film) {
-            return `Poster for ${film}`;
-        },
-        URL_FLAG: function (country) {
-            return `https://flagcdn.com/${country}.svg`;
-        },
-        URL_IMDB: function (slug) {
-            return `https://www.imdb.com/title/${slug}/`;
-        },
-        URL_JUST_WATCH: function (slug) {
-            return `https://www.justwatch.com/uk/movie/${slug}`;
-        },
-        URL_LETTERBOXD: function (slug) {
-            return `https://letterboxd.com/film/${slug}/`;
-        },
-        URL_ROTTEN_TOMATOES: function (slug) {
-            return `https://www.rottentomatoes.com/m/${slug}`;
-        },
-        URL_WIKIPEDIA: function (slug) {
-            return `https://en.wikipedia.org/wiki/${slug}`;
-        },
-        URL_YOUTUBE: function (slug) {
-            return `https://www.youtube.com/watch?v=${slug}`;
-        }
+        ALT_TEXT_FLAG: state => `State flag of ${state}`,
+        ALT_TEXT_POSTER: film => `Poster for ${film}`,
+        URL_FLAG: country => `https://flagcdn.com/${country}.svg`,
+        URL_IMDB: slug => `https://www.imdb.com/title/${slug}/`,
+        URL_JUST_WATCH: slug => `https://www.justwatch.com/uk/movie/${slug}`,
+        URL_LETTERBOXD: slug => `https://letterboxd.com/film/${slug}/`,
+        URL_ROTTEN_TOMATOES: slug => `https://www.rottentomatoes.com/m/${slug}`,
+        URL_WIKIPEDIA: slug => `https://en.wikipedia.org/wiki/${slug}`,
+        URL_YOUTUBE: slug => `https://www.youtube.com/watch?v=${slug}`
     });
 
     let _map;
@@ -81,7 +55,7 @@ $(function () {
 
     initialiseEventHandlers();
 
-    loadData(function () {
+    loadData(() => {
         initialiseCount();
         initialiseMap();
         initialiseStatesList();
@@ -94,23 +68,15 @@ $(function () {
     function initialiseEventHandlers() {
         $("a").not("#exorcist").prop("target", "_blank");
 
-        $("a#exorcist").click(function (event) {
+        $("a#exorcist").click(event => {
             event.preventDefault();
             showFilmDetails("US-DC");
         })
 
-        $("#btnShowMap").click(function () {
-            showMap();
-        });
-        $("#btnShowListStates").click(function () {
-            showListStates();
-        });
-        $("#btnShowListMovies").click(function () {
-            showListMovies();
-        });
-        $("#btnShowAbout").click(function () {
-            showAbout();
-        });
+        $("#btnShowMap").click(() => showMap());
+        $("#btnShowListStates").click(() => showListStates());
+        $("#btnShowListMovies").click(() => showListMovies());
+        $("#btnShowAbout").click(() => showAbout());
 
         $('#filmStateFlag').on({
             error: function () {
@@ -127,8 +93,8 @@ $(function () {
         _filmsSortedByTitle = [];
         _films = {};
 
-        $.getJSON("data/films.json", function (filmsArray) {
-            filmsArray.forEach(function (film) {
+        $.getJSON("data/films.json", filmsArray => {
+            filmsArray.forEach(film => {
                 film.colour = getRandomActiveMapColour();
                 _films[film.stateCode] = film;
             });
@@ -155,10 +121,8 @@ $(function () {
                     attribute: "fill"
                 }]
             },
-            onRegionClick: function (_, stateCode) {
-                showFilmDetails(stateCode);
-            },
-            onRegionTipShow: function (_, tip, code) {
+            onRegionClick: (_, stateCode) => showFilmDetails(stateCode),
+            onRegionTipShow: (_, tip, code) => {
                 let film = _films[code];
                 if (film) {
                     tip.text(`${film.state}: ${film.title} (${film.year})`);
@@ -193,10 +157,7 @@ $(function () {
 
     function initialiseList(elementId, array, buttonType) {
         $(elementId).empty();
-
-        array.forEach(function (film) {
-            $(elementId).append(buildMovieButton(film, buttonType));
-        });
+        array.forEach(film => $(elementId).append(buildMovieButton(film, buttonType)));
     }
 
     function buildMovieButton(film, buttonType) {
@@ -207,9 +168,7 @@ $(function () {
                 style: `background-color: ${film.colour}`
             })
             .text(buttonType.getCaption(film))
-            .click(function () {
-                showFilmDetails(film.stateCode);
-            })
+            .click(() => showFilmDetails(film.stateCode))
             .prepend($("<img/>")
                 .prop({
                     src: flagUrl(film),
@@ -242,7 +201,7 @@ $(function () {
 
     function initialiseStatsByDecade() {
         let byDecade = {};
-        _filmsSortedByState.forEach(function (film) {
+        _filmsSortedByState.forEach(film => {
             var decade = film.year.toString().slice(0, 3) + "0s";
             byDecade[decade] = (byDecade[decade] || 0) + 1;
         });
@@ -431,9 +390,7 @@ $(function () {
         return this.replace(/^(A|The) /, "");
     }
 
-    Array.prototype.sortBy = function (sortFunction) {
-        return this.sort(function (a, b) {
-            return sortFunction(a) < sortFunction(b) ? -1 : sortFunction(a) > sortFunction(b) ? 1 : 0
-        });
+    Array.prototype.sortBy = function (sortFn) {
+        return this.sort((a, b) => sortFn(a) < sortFn(b) ? -1 : sortFn(a) > sortFn(b) ? 1 : 0);
     }
 });
