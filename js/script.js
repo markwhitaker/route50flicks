@@ -423,7 +423,7 @@ $(function () {
 
     function flagUrl(film) {
         return film.stateCode === "US-DC"
-            ? "https://upload.wikimedia.org/wikipedia/commons/d/d4/Flag_of_the_District_of_Columbia.svg"
+            ? "https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Washington%2C_D.C.svg"
             : FORMAT.URL_FLAG(film.stateCode.toLowerCase());
     }
 
