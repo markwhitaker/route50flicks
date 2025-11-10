@@ -1,4 +1,4 @@
-![icon](images/logo72.png)
+<img width="100" height="100" src="images/logo.svg"/>
 
 # ROUTE 50 FLICKS [![Netlify Status](https://api.netlify.com/api/v1/badges/5c2e3629-bd79-49a6-adc5-55470ca0a5e7/deploy-status)](https://app.netlify.com/sites/route50flicks/deploys)
 
