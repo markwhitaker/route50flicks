@@ -111,7 +111,7 @@ $(function () {
             },
             onRegionClick: (_, stateCode) => showFilmDetails(stateCode),
             onRegionTipShow: (_, tip, code) => {
-                let film = _films[code];
+                const film = _films[code];
                 if (film) {
                     tip.text(`${film.state}: ${film.title} (${film.year})`);
                 }
@@ -188,7 +188,7 @@ $(function () {
     }
 
     function initialiseStatsByDecade() {
-        let byDecade = {};
+        const byDecade = {};
         _filmsSortedByState.forEach(film => {
             var decade = film.year.toString().slice(0, 3) + "0s";
             byDecade[decade] = (byDecade[decade] || 0) + 1;
@@ -197,7 +197,7 @@ $(function () {
         const sortedKeys = Object.keys(byDecade).sort();
         const sortedValues = sortedKeys.map(x => byDecade[x]);
 
-        let chartElement = $("#byDecade");
+        const chartElement = $("#byDecade");
         new Chart(chartElement, {
             type: "bar",
             options: {
@@ -247,7 +247,7 @@ $(function () {
     }
 
     function initialiseStatsOldestNewest() {
-        let filmsSortedByYear = _filmsSortedByTitle.slice().sortBy(SORT_FUNCTION.YEAR);
+        const filmsSortedByYear = _filmsSortedByTitle.slice().sortBy(SORT_FUNCTION.YEAR);
 
         $("#oldestNewest").append(
             buildMovieButton(filmsSortedByYear.shift(), BUTTON_TYPE.TITLE),
@@ -255,7 +255,7 @@ $(function () {
     }
 
     function initialiseStatsLongestShortestTitle() {
-        let filmsSortedByTitleLength = _filmsSortedByTitle.slice().sortBy(SORT_FUNCTION.TITLE_LENGTH);
+        const filmsSortedByTitleLength = _filmsSortedByTitle.slice().sortBy(SORT_FUNCTION.TITLE_LENGTH);
 
         $("#longestShortest").append(
             buildMovieButton(filmsSortedByTitleLength.shift(), BUTTON_TYPE.TITLE),
@@ -301,8 +301,8 @@ $(function () {
     }
 
     function getMapColours() {
-        let colours = {};
-        for (let region in _map.regions) {
+        const colours = {};
+        for (const region in _map.regions) {
             colours[region] = _films[region]
                 ? _films[region].colour
                 : INACTIVE_MAP_COLOUR;
@@ -311,12 +311,12 @@ $(function () {
     }
 
     function getRandomActiveMapColour() {
-        let index = Math.floor(Math.random() * ACTIVE_MAP_COLOURS.length);
+        const index = Math.floor(Math.random() * ACTIVE_MAP_COLOURS.length);
         return ACTIVE_MAP_COLOURS[index];
     }
 
     function showFilmDetails(stateCode) {
-        let film = _films[stateCode];
+        const film = _films[stateCode];
 
         if (!film) {
             return;
