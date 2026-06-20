@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="images/icon180.png">
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Monoton&family=Tajawal:wght@400&family=Raleway:wght@400;700;900&display=swap">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="css/libs/jquery-jvectormap-2.0.5.css" type="text/css" media="screen">
   <link rel="stylesheet" href="css/styles.css" type="text/css" media="screen">
 </head>
@@ -24,7 +24,7 @@
   <div class="container content">
 
     <div class="row masthead flex-row-reverse">
-      <div class="col-md-3 align-self-start text-right">
+      <div class="col-md-3 align-self-start text-end">
         <span id="logo"></span>
       </div>
       <div class="col-md-9 align-self-end">
@@ -174,7 +174,7 @@
         <p>Made by <a href="https://bitrot.net/">Mark Whitaker</a>.</p>
         <p>Part of the <a href="https://witterworld.com/">WITTERWORLD</a> family.</p>
         <p>Licensed under the <a href="https://github.com/markwhitaker/route50flicks/blob/master/LICENSE">GNU General Public License v3.0</a>.</p>
-        <p>Made with <a href="https://getbootstrap.com/">Bootstrap</a>, <a href="https://jvectormap.com/">jVectorMap</a>, <a href="https://flagpedia.net/">Flagpedia</a>, <a href="https://jquery.com/">jQuery</a>, <a href="https://www.chartjs.org/">Chart.js</a>, <a href="https://code.visualstudio.com/">Visual Studio Code</a>, <a href="https://www.jetbrains.com/datagrip/">DataGrip</a> and <a href="https://affinity.serif.com/en-gb/designer/">Affinity Designer</a>.</p>
+        <p>Made with <a href="https://getbootstrap.com/">Bootstrap</a>, <a href="https://github.com/bjornd/jvectormap">jVectorMap</a>, <a href="https://flagpedia.net/">Flagpedia</a>, <a href="https://jquery.com/">jQuery</a>, <a href="https://code.visualstudio.com/">Visual Studio Code</a>, <a href="https://www.jetbrains.com/datagrip/">DataGrip</a> and <a href="https://affinity.serif.com/en-gb/designer/">Affinity Designer</a>.</p>
         <p>Hosted on <a href="https://www.netlify.com/">Netlify</a>.</p>
         <p>Open sourced on <a href="https://github.com/markwhitaker/route50flicks">GitHub</a>.</p>
         <p>No cookies. No trackers.</p>
@@ -189,9 +189,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title"><img id="filmStateFlag"><span id="filmState"></span></h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
 
@@ -227,7 +225,7 @@
   </div>
 
   <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <script src="js/libs/jquery-jvectormap-2.0.5.min.js"></script>
   <script src="js/libs/jquery-jvectormap-us-aea.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js" integrity="sha256-9CKDuBNIQo/dQgrK9nyK+XcD2MBjb0JgnPMANrQw6Cs=" crossorigin="anonymous"></script>

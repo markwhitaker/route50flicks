@@ -353,7 +353,7 @@ $(function () {
         $("#reviewLink").toggle(!!film.review).prop({href: `https://youtu.be/${film.review}`});
         $("#filmReviewer").text(film.reviewer);
         $(".modal-header").css("background-color", film.colour);
-        $("#filmDetailsModal").modal();
+        new bootstrap.Modal("#filmDetailsModal").show();
     }
 
     function flagUrl(film) {
