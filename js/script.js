@@ -49,7 +49,6 @@ $(function () {
         initialiseStatesList();
         initialiseMoviesList();
         initialiseStats();
-        preloadImages();
     });
 
     //-----------------------------------------------------------
@@ -147,20 +146,6 @@ $(function () {
     function initialiseList(elementId, array, buttonType) {
         $(elementId).empty();
         array.forEach(film => $(elementId).append(buildMovieButton(film, buttonType)));
-    }
-
-    async function preloadImages() {
-        await Promise.all(
-            _filmsSortedByTitle.map((film) => {
-                return new Promise(() => {
-                    const img = new Image();
-                    img.onerror = () => {
-                        console.warn(`Failed to load image for ${film.title}: ${film.image}`);
-                    };
-                    img.src = film.image;
-                });
-            })
-        );
     }
 
     function buildMovieButton(film, buttonType) {
@@ -346,14 +331,11 @@ $(function () {
                 alt: flagAltText(film)
             });
 
-        $("#filmImageContainer")
-            .toggleClass("defaultImage", !film.image);
         $("#filmImage")
             .prop({
-                src: film.image,
+                src: `/images/posters/${film.stateCode}.jpg`,
                 alt: `Movie poster for ${film.title} (${film.year})`
-            })
-            .toggle(!!film.image);
+            });
 
         $("#filmOriginalTitle")
             .text(film.originalTitle)
